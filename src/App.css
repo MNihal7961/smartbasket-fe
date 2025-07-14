@@ -1,0 +1,18 @@
+/* Layout for MainLayout */
+.main-layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-layout-content {
+  flex: 1;
+  /* Optional: add padding or background as needed */
+}
+
+/* App-wide max width */
+.app-max-width {
+  max-width: 1600px;
+  margin-left: auto;
+  margin-right: auto;
+}
