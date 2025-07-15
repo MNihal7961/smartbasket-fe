@@ -1,16 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { AppDispatch } from '../../redux/store';
+import type { AppDispatch } from '../store';
 import { loginStart, loginSuccess, loginFailure } from './authSlice';
-import { loginUser } from '../../api/auth';
+import { signIn, signUp } from '../../services/api/auth';
+import type { SignInPayload, SignUpPayload } from '../../types/dto';
 
-export const loginThunk = (email: string, password: string) => async (dispatch: AppDispatch) => {
+export const loginThunk = (payload: SignInPayload) => async (dispatch: AppDispatch) => {
   try {
     dispatch(loginStart());
-    const user = await loginUser(email, password);
+    const { user, token } = await signIn(payload);
     dispatch(loginSuccess(user));
-    localStorage.setItem('token', user.token || '');
+    localStorage.setItem('token', token || '');
   } catch (error: any) {
     dispatch(loginFailure(error.response?.data?.message || 'Login failed'));
+  }
+};
+
+export const signupThunk = (payload: SignUpPayload) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch(loginStart());
+    const { user, token } = await signUp(payload);
+    dispatch(loginSuccess(user));
+    localStorage.setItem('token', token || '');
+  } catch (error: any) {
+    dispatch(loginFailure(error.response?.data?.message || 'Signup failed'));
   }
 };
